@@ -47,12 +47,12 @@ Licence URI: http://www.os-templates.com/template-terms
       <!-- ################################################################################################ -->
       <div id="logo" class="fl_left">
         <h1>
-          <a href="index.html">Leia Melhor</a>
+          <a href="/">Leia Melhor</a>
         </h1>
       </div>
       <nav id="mainav" class="fl_right">
         <ul class="clear">
-          <li class="active"><a href="index.html">Home</a></li>
+          <li class="active"><a href="/">Home</a></li>
 
 
 <!--           <li><a class="drop" href="#">Pages</a>
@@ -80,10 +80,10 @@ Licence URI: http://www.os-templates.com/template-terms
 
 
           <li>
-            <a href="about.html">Sobre</a>
+            <a href="about">Sobre</a>
           </li>
           <li>
-            <a href="contact.html">Contato</a>
+            <a href="contact">Contato</a>
           </li>
         </ul>
       </nav>
@@ -199,12 +199,12 @@ Licence URI: http://www.os-templates.com/template-terms
       <div class="one_half">
         <h6 class="heading" style="margin-bottom: 20px">Contato</h6>
         <p class="nospace btmspace-30">Entre em contato e tire suas dúvidas.</p>
-        <form method="post" action="#">
+        <form id="contactForm" method="post" action="/enviar_email">
           <fieldset>
             <legend>Contato:</legend>
-            <input class="btmspace-15" type="text" name="nome" value="" placeholder="Nome">
-            <input class="btmspace-15" type="text" name="email" value="" placeholder="Email">
-            <textarea class="btmspace-15" name="comment" id="comment" cols="25" rows="10"></textarea>
+            <input class="btmspace-15" type="text" name="nome" value="" placeholder="Nome" required>
+            <input class="btmspace-15" type="email" name="email" value="" placeholder="Email" required>
+            <textarea class="btmspace-15" name="comment" id="comment" cols="25" rows="10" style="overflow: hidden;" required></textarea>
 
             <button type="submit" value="submit">Enviar</button>
           </fieldset>
@@ -233,5 +233,38 @@ Licence URI: http://www.os-templates.com/template-terms
   <script src="layout/scripts/jquery.backtotop.js"></script>
   <script src="layout/scripts/jquery.mobilemenu.js"></script>
   <script src="layout/scripts/jquery.flexslider-min.js"></script>
+  <script>
+  // Attach a submit handler to the form
+  $( "#contactForm" ).submit(function( event ) {
+    // Stop form from submitting normally
+    event.preventDefault();
+    
+    // Get some values from elements on the page:
+    var $form = $( this ),
+      nome    = $form.find( "input[name='nome']" ).val(),
+      email   = $form.find( "input[name='email']" ).val(),
+      comment = $form.find( "input[name='comment']" ).val(),
+      url = $form.attr( "action" );
+   
+    $.ajax({
+      type: 'GET',
+      url: 'enviar_email',
+      data: $( "#contactForm" ).serialize()
+    });
+    return;
+
+
+    dados = $( "#contactForm" ).serialize();
+    // Send the data using post
+    var posting = $.post( url, dados );
+    //var posting = $.post( url, { nome: nome, email: email, comment: comment } );
+   
+    // Put the results in a div
+    posting.done(function( data ) {
+      var content = $( data ).find( "#content" );
+      $( "#result" ).empty().append( content );
+    });
+  });
+  </script>
 </body>
 </html>

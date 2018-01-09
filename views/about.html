@@ -47,13 +47,13 @@ Licence URI: http://www.os-templates.com/template-terms
       <!-- ################################################################################################ -->
       <div id="logo" class="fl_left">
         <h1>
-          <a href="index.html">Leia Melhor</a>
+          <a href="/">Leia Melhor</a>
         </h1>
       </div>
       <nav id="mainav" class="fl_right">
         <ul class="clear">
           <li>
-            <a href="index.html">Home</a>
+            <a href="/">Home</a>
           </li>
 
 
@@ -82,10 +82,10 @@ Licence URI: http://www.os-templates.com/template-terms
 
 
           <li class="active">
-            <a href="about.html">Sobre</a>
+            <a href="about">Sobre</a>
           </li>
           <li>
-            <a href="contact.html">Contato</a>
+            <a href="contact">Contato</a>
           </li>
         </ul>
       </nav>
@@ -204,9 +204,9 @@ Licence URI: http://www.os-templates.com/template-terms
         <form method="post" action="#">
           <fieldset>
             <legend>Contato:</legend>
-            <input class="btmspace-15" type="text" name="nome" value="" placeholder="Nome">
-            <input class="btmspace-15" type="text" name="email" value="" placeholder="Email">
-            <textarea class="btmspace-15" name="comment" id="comment" cols="25" rows="10"></textarea>
+            <input class="btmspace-15" type="text" name="nome" value="" placeholder="Nome" required>
+            <input class="btmspace-15" type="email" name="email" value="" placeholder="Email" required>
+            <textarea class="btmspace-15" name="comment" id="comment" cols="25" rows="10" style="overflow: hidden;" required></textarea>
 
             <button type="submit" value="submit">Enviar</button>
           </fieldset>

@@ -101,6 +101,40 @@ app.get('/pagecount', function (req, res) {
   }
 });
 
+app.get('/enviar_email', function (req, res) {
+  console.log(req.query);
+  //console.log('----------');
+  //console.log(res);
+  //res.text('ok');
+
+  var nodemailer = require('nodemailer');
+
+  var transporte = nodemailer.createTransport({
+    service: 'Gmail',
+    auth: {
+      user: 'alucard.dxs@gmail.com',
+      pass: 'danilo@123'
+    } 
+  });
+
+  data = new Date
+  var email = {
+    from: req.query.email, // Quem enviou este e-mail
+    //to: 'daniloxaviergo@gmail.com', // Quem receberá
+    to: 'alucard.dxs@gmail.com',
+    subject: 'Contato - ' + data.toString(), 
+    html: 'Nome: ' + req.query.nome + "\n\n<br/><br/>" + req.query.comment
+  };
+
+  transporte.sendMail(email, function(err, info){
+    if(err)
+      throw err; // Oops, algo de errado aconteceu.
+
+    res.send('ok');
+    //console.log('Email enviado! Leia as informações adicionais: ', info);
+  });
+});
+
 // error handling
 app.use(function(err, req, res, next){
   console.error(err.stack);
