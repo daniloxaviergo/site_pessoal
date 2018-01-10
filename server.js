@@ -1,3 +1,5 @@
+'use strict';
+
 //  OpenShift sample Node application
 var express = require('express'),
     app     = express(),
@@ -119,11 +121,11 @@ app.get('/enviar_email', function (req, res) {
 
   data = new Date
   var email = {
-    from: req.query.email, // Quem enviou este e-mail
+    from: 'alucard.dxs@gmail.com', // Quem enviou este e-mail
     //to: 'daniloxaviergo@gmail.com', // Quem receberá
-    to: 'alucard.dxs@gmail.com',
+    to: 'daniloxaviergo@gmail.com',
     subject: 'Contato - ' + data.toString(), 
-    html: 'Nome: ' + req.query.nome + "\n\n<br/><br/>" + req.query.comment
+    html: 'Nome: ' + req.query.nome + "\n\n<br/><br/>" + 'E-mail: ' + req.query.email + "\n\n<br/><br/>" + req.query.comment
   };
 
   transporte.sendMail(email, function(err, info){
