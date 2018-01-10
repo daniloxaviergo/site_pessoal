@@ -13,6 +13,8 @@ Licence URI: http://www.os-templates.com/template-terms
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <link href="layout/styles/layout.css" rel="stylesheet" type="text/css" media="all">
+  <link href="layout/styles/jAlert.css" rel="stylesheet" type="text/css" media="all">
+  <link rel="stylesheet" href="layout/styles/jAlert.css" />
   <link rel="icon" href="favicon.ico" type="image/x-icon"/>
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
 </head>
@@ -239,24 +241,62 @@ Licence URI: http://www.os-templates.com/template-terms
   <script src="layout/scripts/jquery.backtotop.js"></script>
   <script src="layout/scripts/jquery.mobilemenu.js"></script>
   <script src="layout/scripts/jquery.flexslider-min.js"></script>
+  <script src="layout/scripts/jAlert.min.js"></script>
   <script>
   // Attach a submit handler to the form
   $( "#contactForm" ).submit(function( event ) {
     // Stop form from submitting normally
     event.preventDefault();
+    if($.loading) {
+      return
+    }
     
+    $.loading = true;
     // Get some values from elements on the page:
     var $form = $( this ),
       nome    = $form.find( "input[name='nome']" ).val(),
       email   = $form.find( "input[name='email']" ).val(),
-      comment = $form.find( "input[name='comment']" ).val(),
+      comment = $form.find( "input[name='comment']" ).text(),
       url = $form.attr( "action" );
    
-    $.ajax({
-      type: 'GET',
-      url: 'enviar_email',
-      data: $( "#contactForm" ).serialize()
-    });
+    if ((typeof nome !== "undefined" && nome !== null) || (typeof email !== "undefined" && email !== null) || (typeof comment !== "undefined" && comment !== null)) {
+      $.ajax({
+        type: 'GET',
+        url: 'enviar_email',
+        data: $( "#contactForm" ).serialize(),
+        error: function() {
+          $.loading = false;
+          $.jAlert({
+            'title': 'Ocorreu um erro tente mais tarde.',
+            content: '',
+            'theme': 'red'
+          });
+        },
+        success: function() {
+          $.loading = false;
+          $form.find( "input[name='nome']" ).val('');
+          $form.find( "input[name='email']" ).val('');
+          $( "#comment" ).val('');
+          $( "#nome" ).val('');
+          $( "#email" ).val('');
+          $.jAlert({
+            'title': 'Enviado com sucesso!',
+            content: '',
+            'theme': 'green'
+          });
+        }
+      });
+    } else {
+      $.loading = false;
+      $.alert({
+        title: 'Dados inválidos',
+        content: '',
+      });
+    }
+
+
+    
+
     return;
 
 
