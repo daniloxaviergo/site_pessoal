@@ -1,5 +1,3 @@
-'use strict';
-
 //  OpenShift sample Node application
 var express = require('express'),
     app     = express(),
@@ -109,32 +107,50 @@ app.get('/enviar_email', function (req, res) {
   //console.log(res);
   //res.text('ok');
 
-  var nodemailer = require('nodemailer');
+  var api_key = 'key-5a5f7e1695f7a4a49148d53c530168ea';
+  var domain = 'sandbox41901829e18e428ab62ef6b501261d8c.mailgun.org';
 
-  var transporte = nodemailer.createTransport({
-    service: 'Gmail',
-    auth: {
-      user: 'alucard.dxs@gmail.com',
-      pass: 'danilo@123'
-    } 
-  });
+  var Mailgun = require('mailgun-js')
+  var mGun = new Mailgun({apiKey: api_key, domain: domain});
 
-  data = new Date
-  var email = {
-    from: 'alucard.dxs@gmail.com', // Quem enviou este e-mail
-    //to: 'daniloxaviergo@gmail.com', // Quem receberá
-    to: 'daniloxaviergo@gmail.com',
-    subject: 'Contato - ' + data.toString(), 
-    html: 'Nome: ' + req.query.nome + "\n\n<br/><br/>" + 'E-mail: ' + req.query.email + "\n\n<br/><br/>" + req.query.comment
+  var data = {
+    from: 'Contato aluno <me@samples.mailgun.org>',
+    to: 'alucard.dxs@gmail.com',
+    subject: 'Contato - ' + (new Date).toString(),
+    text: 'Nome: ' + req.query.nome + "\n\n" + 'E-mail: ' + req.query.email + "\n\n" + req.query.comment
   };
 
-  transporte.sendMail(email, function(err, info){
-    if(err)
-      throw err; // Oops, algo de errado aconteceu.
-
-    res.send('ok');
-    //console.log('Email enviado! Leia as informações adicionais: ', info);
+  mGun.messages().send(data, function (error, body) {
+    console.log(body);
+    return res.send('Ok');
   });
+
+//  var nodemailer = require('nodemailer');
+//
+//  var transporte = nodemailer.createTransport({
+//    service: 'Gmail',
+//    auth: {
+//      user: 'alucard.dxs@gmail.com',
+//      pass: 'danilo@123'
+//    } 
+//  });
+//
+//  data = new Date
+//  var email = {
+//    from: 'alucard.dxs@gmail.com', // Quem enviou este e-mail
+//    //to: 'daniloxaviergo@gmail.com', // Quem receberá
+//    to: 'daniloxaviergo@gmail.com',
+//    subject: 'Contato - ' + data.toString(), 
+//    html: 'Nome: ' + req.query.nome + "\n\n<br/><br/>" + 'E-mail: ' + req.query.email + "\n\n<br/><br/>" + req.query.comment
+//  };
+//
+//  transporte.sendMail(email, function(err, info){
+//    if(err)
+//      throw err; // Oops, algo de errado aconteceu.
+//
+//    res.send('ok');
+//    //console.log('Email enviado! Leia as informações adicionais: ', info);
+//  });
 });
 
 // error handling
