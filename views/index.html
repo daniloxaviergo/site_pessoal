@@ -259,7 +259,9 @@ Licence URI: http://www.os-templates.com/template-terms
       comment = $form.find( "input[name='comment']" ).text(),
       url = $form.attr( "action" );
    
-    if ((typeof nome !== "undefined" && nome !== null) || (typeof email !== "undefined" && email !== null) || (typeof comment !== "undefined" && comment !== null)) {
+    if ((typeof nome !== "undefined" && nome !== null && nome !== '') ||
+        (typeof email !== "undefined" && email !== null && email !== '') ||
+        (typeof comment !== "undefined" && comment !== null && comment !== '')) {
       $.ajax({
         type: 'GET',
         url: 'enviar_email',
@@ -288,9 +290,10 @@ Licence URI: http://www.os-templates.com/template-terms
       });
     } else {
       $.loading = false;
-      $.alert({
-        title: 'Dados inválidos',
-        content: '',
+      $.jAlert({
+        'title': 'Dados inválidos.',
+        content: 'Informe um nome, e-mail e a mensagem.',
+        'theme': 'red'
       });
     }
 

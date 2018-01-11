@@ -114,15 +114,36 @@ app.get('/enviar_email', function (req, res) {
   var mGun = new Mailgun({apiKey: api_key, domain: domain});
 
   var data = {
-    from: 'Contato aluno <me@samples.mailgun.org>',
+    from: 'Aluno <me@samples.mailgun.org>',
     to: 'alucard.dxs@gmail.com',
     subject: 'Contato - ' + (new Date).toString(),
     text: 'Nome: ' + req.query.nome + "\n\n" + 'E-mail: ' + req.query.email + "\n\n" + req.query.comment
   };
 
-  mGun.messages().send(data, function (error, body) {
-    console.log(body);
-    return res.send('Ok');
+  if (!db) {
+    initDb(function(err){});
+  }
+
+  if(db) {
+    var col = db.collection('contacts');
+    col.insert({
+      nome:    req.query.nome,
+      email:   req.query.email,
+      comment: req.query.comment
+    });
+  }
+
+  //mGun.messages().send(data, function (error, body) {
+  //  console.log(body);
+  //  return res.send('Ok');
+  //});
+
+  mGun.messages().send(data).then(function (body) {
+    console.log('body: ', body);
+    res.send('Ok');
+  }, function (err) {
+    console.log('err: ', err);
+    res.status(500).send('Something bad happened!');
   });
 
 //  var nodemailer = require('nodemailer');
