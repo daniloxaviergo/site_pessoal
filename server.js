@@ -107,15 +107,15 @@ app.get('/enviar_email', function (req, res) {
   //console.log(res);
   //res.text('ok');
 
-  var api_key = 'key-5a5f7e1695f7a4a49148d53c530168ea';
-  var domain = 'sandbox41901829e18e428ab62ef6b501261d8c.mailgun.org';
+  var api_key = process.env.MAILGUN_API_KEY;
+  var domain = process.env.MAILGUN_DOMAIN;
 
   var Mailgun = require('mailgun-js')
   var mGun = new Mailgun({apiKey: api_key, domain: domain});
 
   var data = {
     from: 'Aluno <me@samples.mailgun.org>',
-    to: 'alucard.dxs@gmail.com',
+    to: process.env.MAILGUN_MEU_EMAIL,
     subject: 'Contato - ' + (new Date).toString(),
     text: 'Nome: ' + req.query.nome + "\n\n" + 'E-mail: ' + req.query.email + "\n\n" + req.query.comment
   };
