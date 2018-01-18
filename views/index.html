@@ -14,7 +14,6 @@ Licence URI: http://www.os-templates.com/template-terms
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <link href="layout/styles/layout.css" rel="stylesheet" type="text/css" media="all">
   <link href="layout/styles/jAlert.css" rel="stylesheet" type="text/css" media="all">
-  <link rel="stylesheet" href="layout/styles/jAlert.css" />
   <link rel="icon" href="favicon.ico" type="image/x-icon"/>
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
 </head>
@@ -296,23 +295,6 @@ Licence URI: http://www.os-templates.com/template-terms
         'theme': 'red'
       });
     }
-
-
-    
-
-    return;
-
-
-    dados = $( "#contactForm" ).serialize();
-    // Send the data using post
-    var posting = $.post( url, dados );
-    //var posting = $.post( url, { nome: nome, email: email, comment: comment } );
-   
-    // Put the results in a div
-    posting.done(function( data ) {
-      var content = $( data ).find( "#content" );
-      $( "#result" ).empty().append( content );
-    });
   });
   </script>
 
