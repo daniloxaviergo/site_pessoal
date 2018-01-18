@@ -265,5 +265,13 @@ Licence URI: http://www.os-templates.com/template-terms
 
     gtag('config', 'UA-112282008-1');
   </script>
+  <script type="text/javascript">
+    $("#mainav option").each(function() {
+      var e = $(this);
+      if(e.attr('value') == 'contact') {
+        e.attr('selected', "selected");
+      }
+    })
+  </script>
 </body>
 </html>
